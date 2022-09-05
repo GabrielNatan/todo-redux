@@ -1,10 +1,11 @@
-import {createSlice } from '@reduxjs/toolkit'
-
+import { createSlice } from '@reduxjs/toolkit'
+import { login } from '../../login-api'
 
 const initialState = {
-    email:'legal@mais.com',
-    password:'password',
-    data: ''
+    isLogged:document.cookie.includes("token") ? true : false,
+    email:'email',
+    password:'',
+    user: {}
 }
 
 
@@ -13,7 +14,12 @@ const authSlice = createSlice({
     initialState,
     reducers:{
         logIn(state,action){
-            console.log("action ==> ",action.payload)
+            let { email, password } = action.payload
+            state.email = email
+            state.password = password
+            state.isLogged = true
+            state.user = {name:"Rei", lastName:"Pelé"}
+            login(email, password)
         },
         logOut(state,action){
 
